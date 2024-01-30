@@ -3,13 +3,20 @@ import gspread #pip install gspread
 import pandas as pd #pip install pandas
 import framework as fw #my fuctions
 
+fw.Clear()
 
-CODE = '1Byk9WC8dvJYod1OAX5LYZh9zasOyeP_RWGAXf09-qHQ' #spreadsheet id url 
+# Spreadsheet configuration
+SPREADSHEET_ID = '1Byk9WC8dvJYod1OAX5LYZh9zasOyeP_RWGAXf09-qHQ'
+try:
+    gc = gspread.service_account(filename='key.json')
+except FileNotFoundError:
+    print("Error: 'key.json' file not found. Please make sure the file is in the correct location.")
+    # Encerrar o programa ou tomar outras medidas apropriadas
+    exit()
 
-#google sheets authentication
-gc = gspread.service_account(filename='key.json') #security key
-sh = gc.open_by_key(CODE) #open sheet wwth code
-ws = sh.worksheet('engenharia_de_software')  #page 
+sh = gc.open_by_key(SPREADSHEET_ID)
+ws = sh.worksheet('engenharia_de_software')
+
 
 #get sheet data 
 data = ws.get_all_values()
@@ -18,11 +25,7 @@ data = ws.get_all_values()
 df = pd.DataFrame(data[1:], columns=data[0])  # ignore first row (header)
 
 # Select grade columns and convert to number
-col_p1 = 3  # column grade 1
-col_p2 = 4  # column grade 1
-col_p3 = 5  # column grade 2
-col_school_absences = 2 # column school_absences
-
+col_p1, col_p2, col_p3, col_school_absences = 3, 4, 5, 2
 
 #converting to number
 p1 = pd.to_numeric(df.iloc[:, col_p1], errors='coerce') 
@@ -35,11 +38,12 @@ school_absences = pd.to_numeric(df.iloc[:, col_school_absences], errors='coerce'
 situation = []
 approved = []
 
+
 for i in range(2, len(fw.Average(p1, p2, p3))): #read grades
     if fw.SchoolsAbsences(school_absences[i]): #if school_absences is true
         situation.append("Failed due to absence") #the situation is disapproved
         approved.append(0) #add zero in naf
-    else: #else 
+    else: #else         
         average = fw.Average(p1, p2, p3).iloc[i] #save the average in a variable
         if average < 50: #if average is less than 50 (5.0)
             situation.append("Failed due to grades") #the situation is disapproved
@@ -56,12 +60,19 @@ for i in range(2, len(fw.Average(p1, p2, p3))): #read grades
 df.iloc[2:, 6] = situation
 df.iloc[2:, 7] = approved
 
-# updating spreadsheet with new information
-for i, value in enumerate(situation):
-    ws.update(f'G{i+4}', [[str(value)]], value_input_option='RAW')
+# Log messages
+print(' === Check the spreadsheet, the data is being updated ===')
 
-# updating spreadsheet with new information
-for i, value in enumerate(approved):
-    ws.update(f'H{i+4}', [[float(value)]], value_input_option='RAW')
+# Updating spreadsheet with new information
+try:
+    for i, value in enumerate(situation):
+        ws.update(range_name=f'G{i+4}', values=[[str(value)]], value_input_option='RAW')
+    print(' === The situation was updated successfully. ===')
+    for i, value in enumerate(approved):
+        ws.update(range_name=f'H{i+4}', values=[[float(value)]], value_input_option='RAW')
+    print('The Final Approval Grade was updated successfully.')
+    print('Spreadsheet updated successfully.')
+except Exception as e:
+    print(f'Error updating spreadsheet: {e}')
 
 print('=== APPLICATION TERMINATED ===')
