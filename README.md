@@ -5,10 +5,10 @@ This is a project for read and update one spreadsheet the Google
 </p>
 
 <p align="center">
-  <a href="#-tecnologias">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-projeto">About project</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-layout">Documentation</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#memo-licença">Licence</a>
+  <a href="#-technologies">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-project">About project</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-documentation">Documentation</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#licence">Licence</a>
 </p>
 <br>
 
@@ -16,11 +16,13 @@ This is a project for read and update one spreadsheet the Google
 
 This project was developed with the following technologies
 
-- Python
-   - gspread
-   - pandas
-   - numpy
-   - math
+- Python 3.11.7
+   - gspread 6.0.0
+   - pandas 2.1.0
+   - numpy 1.25.2
+   - math (the library is already in python)
+   - platform (the library is already in python)
+   - os (the library is already in python)
 - Git and Github
 - Visual Studio Code
 
@@ -54,7 +56,10 @@ app.py is file central and framewok.py file is the functions.
     - [pip install pandas](https://pypi.org/project/pandas/);
     - [pip install gspread](https://pypi.org/project/gspread/);
     - [pip install numpy](https://pypi.org/project/numpy/);
-    - [pip install math](https://pypi.org/project/python-math/).
+    - pip install math
+    - pip install lib-platform
+    - pip install os
+    
 - Confirm that the key.json file is in the folder;
 - If everything is correct, you can run the app.py file using <b>F5</b> (in Visual Studio Code) or writing <b>python app.py</b> in the console.
 
