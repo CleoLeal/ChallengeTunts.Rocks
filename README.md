@@ -30,6 +30,19 @@ This project was developed with the following technologies
 
 The application is used to read a Google Sheets spreadsheet, search for information, calculate and read the result in the spreadsheet.
 <br>
+<h3>Rules</h3>
+
+| Avarage | Situation |
+| ------------- | ------------- |
+| avg < 50  | Failed due to grades  |
+| 50 < avg <= 70 | Exam failed  |
+| avg > 70 | Approved |
+
+<h3>Calculation Naf</h3>
+If the student is in the “Final Exam” situation, their passing grade must be calculated using the following formula.
+
+> <h4>5 <= (avg + naf) / 2</h4>
+<br>
 
 [Click here](https://docs.google.com/spreadsheets/d/1Byk9WC8dvJYod1OAX5LYZh9zasOyeP_RWGAXf09-qHQ/edit#gid=0) to view Google Sheets spreadsheet.
 
